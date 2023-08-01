@@ -1,0 +1,29 @@
+# Spring Boot Application Properties
+server:
+  address:  0.0.0.0
+  # Default port is 8080
+  port:     7001
+  error:
+    include-message: always
+  # servlet:
+    # Default context-path is /
+    # context-path: /api
+
+# Spring Doc Application Properties
+springdoc:
+  api-docs:
+    # Default path is /v3/api-docs/ for OAS 3
+    path: /docs
+# Spring Doc/Swagger Application Properties
+  # swagger-ui.path: /swagger-ui.html
+
+# JPA
+  jpa:
+    hibernate:
+      ddl-auto:           update
+      database-platform:  org.hibernate.dialect.PostgreSQLDialect
+    show-sql=true:        true
+
+spring:
+  config:
+    import: classpath:datasource-credentials.yaml
