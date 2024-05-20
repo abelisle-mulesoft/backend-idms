@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Backend IDMS Microservice",
+    "description": "Specifications of a microservice that emulates a customer's homegrown identity management system (IDMS).",
+    "contact": {
+      "name": "Alan Belisle",
+      "email": "abelisle@salesforce.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.1.3"
+  },
+  "servers": [
+    {
+      "url": "https://dev.brilliantmule.com/v1",
+      "description": "Development endpoint"
+    },
+    {
+      "url": "https://sit.brilliantmule.com/v1",
+      "description": "System integration testing endpoint"
+    },
+    {
+      "url": "https://staging.brilliantmule.com/v1",
+      "description": "Staging endpoint"
+    },
+    {
+      "url": "https://api.brilliantmule.com/v1",
+      "description": "Production endpoint"
+    }
+  ],
+  "tags": [
+    {
+      "name": "identity",
+      "description": "Access to identities managed by the IDMS"
+    },
+    {
+      "name": "health",
+      "description": "Microservice health check operations"
+    }
+  ],
+  "paths": {
+    "/v1/idms/identities": {
+      "get": {
+        "tags": [
+          "identity"
+        ],
+        "summary": "Get all identities",
+        "description": "Returns all identities managed by the IDMS",
+        "operationId": "getAllIdentities",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/identity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "identity"
+        ],
+        "summary": "Create an identity",
+        "description": "Creates a new identity in the IDMS",
+        "operationId": "createIdentity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/identity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/identity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/idms/identities/{id}": {
+      "get": {
+        "tags": [
+          "identity"
+        ],
+        "summary": "Find identity by ID",
+        "description": "Returns the identity associated with the specified ID",
+        "operationId": "getIdentityById",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/identity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "identity"
+        ],
+        "summary": "Update exiting identity",
+        "description": "Updates the identity associated with the specified ID",
+        "operationId": "updateIdentity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/identity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/identity"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "identity"
+        ],
+        "summary": "Delete identity",
+        "description": "Deletes the identity associated with the specified ID",
+        "operationId": "deleteIdentity",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Identity's unique identifier",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ]
+    },
+    "/v1/idms/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Get IDMS' health",
+        "description": "Returns the health and status of the IDMS",
+        "operationId": "getServiceHealth",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/health"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "identity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          },
+          "sfcontactId": {
+            "type": "string"
+          }
+        }
+      },
+      "health": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
