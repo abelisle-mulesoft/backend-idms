@@ -18,12 +18,18 @@ springdoc:
   # swagger-ui.path: /swagger-ui.html
 
 # JPA
+spring:
   jpa:
+    show-sql:             false
     hibernate:
       ddl-auto:           update
-      database-platform:  org.hibernate.dialect.PostgreSQLDialect
-    show-sql=true:        true
-
-spring:
+#      database-platform:  org.hibernate.dialect.PostgreSQLDialect
+      database-platform:  org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql:       true
+  #  sql:
+#    init:
+#      mode: always
   config:
     import: classpath:datasource-credentials.yaml

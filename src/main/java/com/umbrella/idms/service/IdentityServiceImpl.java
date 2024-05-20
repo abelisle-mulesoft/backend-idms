@@ -45,11 +45,15 @@ public class IdentityServiceImpl implements IdentityService {
 
     public Identity saveIdentity(Identity identity) {
         // Check if Identity already exists in DB
-        if (IdentityRepository.findByEmail(identity.getEmail()).isPresent() ||
-                IdentityRepository.findBySfContactId(identity.getSFContactId()).isPresent()) {
-            throw new IdentityAlreadyExistsException("Identity already exists");
+        if (isNotNull(identity.getEmail())) {
+            if (IdentityRepository.findByEmail(identity.getEmail()).isPresent()) {
+                throw new IdentityAlreadyExistsException("Identity already exists");
+            }
+        } else if (isNotNull(identity.getSFContactId())) {
+            if (IdentityRepository.findBySfContactId(identity.getSFContactId()).isPresent()) {
+                throw new IdentityAlreadyExistsException("Identity already exists");
+            }
         }
-
         return IdentityRepository.save(identity);
     }
 
