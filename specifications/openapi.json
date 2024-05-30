@@ -169,7 +169,8 @@
           "required": true,
           "schema": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "example": 101
           }
         }
       ]
@@ -204,40 +205,64 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "example": 101
           },
           "firstName": {
-            "type": "string"
+            "type": "string",
+            "example": "Wolf"
           },
           "lastName": {
-            "type": "string"
+            "type": "string",
+            "example": "Martin"
           },
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "wmertin@imageshack.us"
           },
           "street": {
-            "type": "string"
+            "type": "string",
+            "example": "13 Cottonwood Plaza"
           },
           "city": {
-            "type": "string"
+            "type": "string",
+            "example": "Salt Lake City"
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "example": "UT"
           },
           "zip": {
-            "type": "string"
+            "type": "string",
+            "example": "84189"
           },
           "sfcontactId": {
-            "type": "string"
+            "type": "string",
+            "example": "SF1234"
           }
+        },
+        "example": {
+          "id": 101,
+          "firstName": "Wolf",
+          "lastName": "Martin",
+          "email": "wmertin@imageshack.us",
+          "street": "13 Cottonwood Plaza",
+          "city": "Salt Lake City",
+          "state": "UT",
+          "zip": "84189",
+          "sfcontactId": "SF1234"
         }
       },
       "health": {
         "type": "object",
         "properties": {
           "status": {
-            "type": "string"
+            "type": "string",
+            "example": "UP"
           }
+        },
+        "example": {
+          "status": "UP"
         }
       }
     }
