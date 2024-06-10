@@ -1,0 +1,1 @@
+For help and support inquiries, please email our [support team](mailto:support@brilliantmule.com). Support is available Monday through Friday, from 9 am to 5 pm Pacific Time. The service response time target is within four hours.
