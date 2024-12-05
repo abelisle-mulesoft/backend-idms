@@ -2,7 +2,7 @@
 projects:
   - main: specifications/openapi.json
     assetId: backend-idms
-    version: 1.1.6
+    version: 1.1.10
     apiVersion: v1
     contact:
       name: Alan Belisle
