@@ -1,10 +1,6 @@
-package com.umbrella.idms.controller;
+package com.brilliantmule.identity.management.controller;
 
-import com.umbrella.idms.exception.IdentityAlreadyExistsException;
-import com.umbrella.idms.exception.IdentityNotFoundException;
-import com.umbrella.idms.model.Identity;
-import com.umbrella.idms.service.HealthService;
-import com.umbrella.idms.service.IdentityService;
+import com.brilliantmule.identity.management.exception.IdentityAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,17 +10,17 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/idms")
+@RequestMapping("/v1")
 public class IdentityController {
 
     @Autowired
-    IdentityService identityService;
+    com.brilliantmule.identity.management.service.IdentityService identityService;
 
     @Autowired
-    HealthService healthService;
+    com.brilliantmule.identity.management.service.HealthService healthService;
 
     @GetMapping("/identities")
-    private ResponseEntity<List<Identity>> getAllIdentitys() {
+    private ResponseEntity<List<com.brilliantmule.identity.management.model.Identity>> getAllIdentitys() {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -33,16 +29,16 @@ public class IdentityController {
     }
 
     @GetMapping("/identities/{id}")
-    private ResponseEntity<Identity> getIdentity(@PathVariable("id") Long id) {
+    private ResponseEntity<com.brilliantmule.identity.management.model.Identity> getIdentity(@PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Identity identity;
+        com.brilliantmule.identity.management.model.Identity identity;
 
         try {
             identity = identityService.getIdentityById(id);
-        } catch (IdentityNotFoundException infe) {
+        } catch (com.brilliantmule.identity.management.exception.IdentityNotFoundException infe) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, infe.getMessage(), infe);
         } catch (RuntimeException re) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, re.getMessage(), re);
@@ -52,7 +48,7 @@ public class IdentityController {
     }
 
     @GetMapping("/identity")
-    private Identity findIdentity(@RequestParam String email, @RequestParam String sfContactId) {
+    private com.brilliantmule.identity.management.model.Identity findIdentity(@RequestParam String email, @RequestParam String sfContactId) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -78,7 +74,7 @@ public class IdentityController {
 
         try {
             identityService.deleteIdentityById(id);
-        } catch (IdentityNotFoundException infe) {
+        } catch (com.brilliantmule.identity.management.exception.IdentityNotFoundException infe) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, infe.getMessage(), infe);
         } catch (RuntimeException re) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, re.getMessage(), re);
@@ -86,12 +82,12 @@ public class IdentityController {
     }
 
     @PostMapping("/identities")
-    private ResponseEntity<Identity> saveIdentity(@RequestBody Identity identity) {
+    private ResponseEntity<com.brilliantmule.identity.management.model.Identity> saveIdentity(@RequestBody com.brilliantmule.identity.management.model.Identity identity) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Identity newIdentity = new Identity();
+        com.brilliantmule.identity.management.model.Identity newIdentity = new com.brilliantmule.identity.management.model.Identity();
 
         try {
             newIdentity = identityService.saveIdentity(identity);
@@ -105,16 +101,16 @@ public class IdentityController {
     }
 
     @PutMapping("/identities/{id}")
-    private ResponseEntity<Identity> updateIdentity(@RequestBody Identity identity, @PathVariable("id") Long id) {
+    private ResponseEntity<com.brilliantmule.identity.management.model.Identity> updateIdentity(@RequestBody com.brilliantmule.identity.management.model.Identity identity, @PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Identity updatedIdentity;
+        com.brilliantmule.identity.management.model.Identity updatedIdentity;
 
         try {
             updatedIdentity = identityService.updateIdentity(identity, id);
-        } catch (IdentityNotFoundException infe) {
+        } catch (com.brilliantmule.identity.management.exception.IdentityNotFoundException infe) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, infe.getMessage(), infe);
         } catch (RuntimeException re) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, re.getMessage(), re);

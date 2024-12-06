@@ -1,13 +1,13 @@
-package com.umbrella.idms;
+package com.brilliantmule.identity.management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class IDMSApplication {
+public class IdentityManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IDMSApplication.class, args);
+		SpringApplication.run(IdentityManagementApplication.class, args);
 	}
 
 }

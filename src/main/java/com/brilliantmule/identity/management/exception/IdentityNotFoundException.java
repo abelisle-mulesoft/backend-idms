@@ -1,4 +1,4 @@
-package com.umbrella.idms.exception;
+package com.brilliantmule.identity.management.exception;
 
 /**
  * @author Alain Belisle

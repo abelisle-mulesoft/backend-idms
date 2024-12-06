@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Backend IDMS Microservice",
-    "description": "Specifications of a microservice that emulates a customer's homegrown identity management system (IDMS).",
+    "title": "Identity Management",
+    "description": "Microservice that emulates a customer's homegrown identity management system (IDMS).",
     "contact": {
       "name": "Alan Belisle",
       "email": "abelisle@salesforce.com"
@@ -11,7 +11,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.1.3"
+    "version": "1.0.0"
   },
   "servers": [
     {
@@ -33,22 +33,22 @@
   ],
   "tags": [
     {
-      "name": "identity",
-      "description": "Access to identities managed by the IDMS"
+      "name": "Identities",
+      "description": "Operations about identities"
     },
     {
-      "name": "health",
-      "description": "Microservice health check operations"
+      "name": "Health",
+      "description": "Operations about this microservice's health"
     }
   ],
   "paths": {
-    "/v1/idms/identities": {
+    "/v1/identities": {
       "get": {
         "tags": [
-          "identity"
+          "Identities"
         ],
         "summary": "Get all identities",
-        "description": "Returns all identities managed by the IDMS",
+        "description": "Returns all identities",
         "operationId": "getAllIdentities",
         "responses": {
           "200": {
@@ -58,7 +58,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/identity"
+                    "$ref": "#/components/schemas/Identity"
                   }
                 }
               }
@@ -68,16 +68,16 @@
       },
       "post": {
         "tags": [
-          "identity"
+          "Identities"
         ],
         "summary": "Create an identity",
-        "description": "Creates a new identity in the IDMS",
+        "description": "Creates a new identity",
         "operationId": "createIdentity",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/identity"
+                "$ref": "#/components/schemas/Identity"
               }
             }
           },
@@ -89,7 +89,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/identity"
+                  "$ref": "#/components/schemas/Identity"
                 }
               }
             }
@@ -97,10 +97,10 @@
         }
       }
     },
-    "/v1/idms/identities/{id}": {
+    "/v1/identities/{id}": {
       "get": {
         "tags": [
-          "identity"
+          "Identities"
         ],
         "summary": "Find identity by ID",
         "description": "Returns the identity associated with the specified ID",
@@ -111,7 +111,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/identity"
+                  "$ref": "#/components/schemas/Identity"
                 }
               }
             }
@@ -120,7 +120,7 @@
       },
       "put": {
         "tags": [
-          "identity"
+          "Identities"
         ],
         "summary": "Update exiting identity",
         "description": "Updates the identity associated with the specified ID",
@@ -129,7 +129,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/identity"
+                "$ref": "#/components/schemas/Identity"
               }
             }
           },
@@ -141,7 +141,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/identity"
+                  "$ref": "#/components/schemas/Identity"
                 }
               }
             }
@@ -150,7 +150,7 @@
       },
       "delete": {
         "tags": [
-          "identity"
+          "Identities"
         ],
         "summary": "Delete identity",
         "description": "Deletes the identity associated with the specified ID",
@@ -175,13 +175,13 @@
         }
       ]
     },
-    "/v1/idms/health": {
+    "/v1/health": {
       "get": {
         "tags": [
-          "health"
+          "Health"
         ],
-        "summary": "Get IDMS' health",
-        "description": "Returns the health and status of the IDMS",
+        "summary": "Get health status",
+        "description": "Returns the health and status of this microservice",
         "operationId": "getServiceHealth",
         "responses": {
           "200": {
@@ -189,7 +189,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/health"
+                  "$ref": "#/components/schemas/Health"
                 }
               }
             }
@@ -200,7 +200,7 @@
   },
   "components": {
     "schemas": {
-      "identity": {
+      "Identity": {
         "type": "object",
         "properties": {
           "id": {
@@ -253,7 +253,7 @@
           "sfcontactId": "SF1234"
         }
       },
-      "health": {
+      "Health": {
         "type": "object",
         "properties": {
           "status": {

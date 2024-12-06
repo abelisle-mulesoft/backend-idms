@@ -1,8 +1,8 @@
-package com.umbrella.idms.service;
+package com.brilliantmule.identity.management.service;
 
-import com.umbrella.idms.exception.IdentityAlreadyExistsException;
-import com.umbrella.idms.exception.IdentityNotFoundException;
-import com.umbrella.idms.model.Identity;
+import com.brilliantmule.identity.management.exception.IdentityAlreadyExistsException;
+import com.brilliantmule.identity.management.exception.IdentityNotFoundException;
+import com.brilliantmule.identity.management.model.Identity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class IdentityServiceImpl implements IdentityService {
     @Autowired
-    com.umbrella.idms.repository.IdentityRepository IdentityRepository;
+    com.brilliantmule.identity.management.repository.IdentityRepository IdentityRepository;
 
     public List<Identity> getIdentityList() {
         return (List<Identity>) IdentityRepository.findAll();

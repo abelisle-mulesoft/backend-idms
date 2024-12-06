@@ -1,4 +1,4 @@
-package com.umbrella.idms.model;
+package com.brilliantmule.identity.management.model;
 
 import javax.persistence.*;
 

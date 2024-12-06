@@ -1,4 +1,4 @@
-package com.umbrella.idms.model;
+package com.brilliantmule.identity.management.model;
 
 public class Health {
     public static final String STATUS_UP = "UP";

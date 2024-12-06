@@ -1,8 +1,8 @@
-We leverage Anypoint Flex Gateway to manage and secure access to the Backend IDMS microservice. To consume it:
+We leverage Anypoint Flex Gateway to manage and secure access to the Identity Management microservice. To consume it:
 
 1. Review the API Documentation
 
-    First, consult this portal's ***API Summary*** section for details on the implemented resources, methods, and their expected behavior. As a reminder, you can use the API mocking service to simulate the behavior of the Backend IDMS microservice and even leverage it to test your client application without requiring access to an API instance.
+    First, consult this portal's ***API Summary*** section for details on the implemented resources, methods, and their expected behavior. As a reminder, you can use the API mocking service to simulate the behavior of the Identity Management microservice and even leverage it to test your client application without requiring access to an API instance.
 
 2. Request Access
 
@@ -14,4 +14,4 @@ We leverage Anypoint Flex Gateway to manage and secure access to the Backend IDM
 
 4. Please Provide Feedback
 
-    We are always looking to improve our APIs and ensure consumers get value. We would appreciate any constructive feedback based on your experience working with the Backend IDMS microservice.
+    We are always looking to improve our APIs and ensure consumers get value. We would appreciate any constructive feedback based on your experience working with the Identity Management microservice.

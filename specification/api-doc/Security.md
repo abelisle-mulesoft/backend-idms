@@ -1,4 +1,4 @@
-The Backend IDMS microservice is locked down and not accessible directly. We leverage Anypoint Flex Gateway to manage and secure access. More specifically, the Backend IDMS microservice is protected using a [Client ID Enforcement Policy](https://docs.mulesoft.com/gateway/latest/policies-included-client-id-enforcement), which allows access only to authorized client applications. To access it, you must include the following key-value pair in the request header:
+The Identity Management microservice is locked down and not accessible directly. We leverage Anypoint Flex Gateway to manage and secure access. More specifically, the Identity Management microservice is protected using a [Client ID Enforcement Policy](https://docs.mulesoft.com/gateway/latest/policies-included-client-id-enforcement), which allows access only to authorized client applications. To access it, you must include the following key-value pair in the request header:
 
 | Key | Value |
 | ------ | ------ |
