@@ -1,16 +1,22 @@
 package com.brilliantmule.identity.management.controller;
 
 import com.brilliantmule.identity.management.exception.IdentityAlreadyExistsException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
+@Tag(name = "Identities")
 public class IdentityController {
 
     @Autowired
@@ -20,16 +26,27 @@ public class IdentityController {
     com.brilliantmule.identity.management.service.HealthService healthService;
 
     @GetMapping("/identities")
-    private ResponseEntity<List<com.brilliantmule.identity.management.model.Identity>> getAllIdentitys() {
+    @Operation(operationId = "get-identities", summary = "Get identities", description = "Get identity records")
+    private ResponseEntity<List<com.brilliantmule.identity.management.model.Identity>> getIdentities(@Parameter(description = "Email address") @RequestParam(required = false) String email, @Parameter(description = "Salesforce id") @RequestParam(required = false) String salesforceId) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(identityService.getIdentityList());
+        List<com.brilliantmule.identity.management.model.Identity> identities = new ArrayList<>();
+        if( email != null || salesforceId != null ){
+            com.brilliantmule.identity.management.model.Identity identity = identityService.findIdentity(email, salesforceId);
+            if( identity != null ){
+                identities.add(identity);
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(identities);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(identityService.getIdentityList());
+        }
     }
 
     @GetMapping("/identities/{id}")
-    private ResponseEntity<com.brilliantmule.identity.management.model.Identity> getIdentity(@PathVariable("id") Long id) {
+    @Operation(operationId = "get-identity-by-id", summary = "Get identity by ID", description = "Get the identity associated with the specified ID")
+    private ResponseEntity<com.brilliantmule.identity.management.model.Identity> getIdentity(@Parameter(description = "Identity's unique identifier", schema = @Schema(type = "integer", format = "int64", example = "101")) @PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -47,27 +64,9 @@ public class IdentityController {
         return ResponseEntity.status(HttpStatus.OK).body(identity);
     }
 
-    @GetMapping("/identity")
-    private com.brilliantmule.identity.management.model.Identity findIdentity(@RequestParam String email, @RequestParam String sfContactId) {
-        if(!healthService.isServiceHealthy()){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return identityService.findIdentity(email, sfContactId);
-    }
-
-// Return empty response body
-//    @RequestMapping(value = "/sigla/{sigla}", method = RequestMethod.GET, consumes = "application/json", produces="application/json")
-//    public ResponseEntity<PaisDTO> obterPorSigla(@PathVariable String sigla) {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Content-Type", "application/json");
-//        PaisDTO paisDTO = service.obterPorSigla(sigla);
-//        if(paisDTO != null) return new ResponseEntity<>(paisDTO, headers, HttpStatus.OK);
-//        else return new ResponseEntity<>(headers, HttpStatus.OK);
-//    }
-
     @DeleteMapping("/identities/{id}")
-    private void deleteIdentity(@PathVariable("id") Long id) {
+    @Operation(operationId = "delete-identity-by-id", summary = "Delete identity by ID", description = "Delete the identity associated with the specified ID")
+    private void deleteIdentity(@Parameter(description = "Identity's unique identifier", schema = @Schema(type = "integer", format = "int64", example = "101")) @PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -82,6 +81,7 @@ public class IdentityController {
     }
 
     @PostMapping("/identities")
+    @Operation(operationId = "create-identity", summary = "Create an identity", description = "Create a new identity record using the information provided")
     private ResponseEntity<com.brilliantmule.identity.management.model.Identity> saveIdentity(@RequestBody com.brilliantmule.identity.management.model.Identity identity) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,7 +101,8 @@ public class IdentityController {
     }
 
     @PutMapping("/identities/{id}")
-    private ResponseEntity<com.brilliantmule.identity.management.model.Identity> updateIdentity(@RequestBody com.brilliantmule.identity.management.model.Identity identity, @PathVariable("id") Long id) {
+    @Operation(operationId = "update-identity-by-id", summary = "Update an identity by ID", description = "Update the identity associated with the specified ID")
+    private ResponseEntity<com.brilliantmule.identity.management.model.Identity> updateIdentity(@RequestBody com.brilliantmule.identity.management.model.Identity identity, @Parameter(description = "Identity's unique identifier", schema = @Schema(type = "integer", format = "int64", example = "101")) @PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }

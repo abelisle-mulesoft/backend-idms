@@ -29,28 +29,34 @@ public class IdentityServiceImpl implements IdentityService {
         return identity.get();
     }
 
-    public Identity findIdentity(String email, String sfContactId) {
-        Optional<Identity> existingIdentity = IdentityRepository.findByEmail(email);
+    public Identity findIdentity(String email, String salesforceId) {
+        Optional<Identity> existingIdentity;
 
-        if(existingIdentity.isEmpty()){
-            existingIdentity = IdentityRepository.findBySfContactId(sfContactId);
+        if(email == null && salesforceId == null){
+            return null;
+        } else if(salesforceId == null){
+            existingIdentity = IdentityRepository.findByEmail(email);
+        } else if(email == null){
+            existingIdentity = IdentityRepository.findBySalesforceId(salesforceId);
+        } else {
+            existingIdentity = IdentityRepository.findByEmailOrSalesforceId(email, salesforceId);
         }
 
         if(existingIdentity.isEmpty()){
-            return new Identity();
+            return null;
         } else {
             return existingIdentity.get();
         }
     }
 
     public Identity saveIdentity(Identity identity) {
-        // Check if Identity already exists in DB
+        // Check if identity already exists in DB
         if (isNotNull(identity.getEmail())) {
             if (IdentityRepository.findByEmail(identity.getEmail()).isPresent()) {
                 throw new IdentityAlreadyExistsException("Identity already exists");
             }
-        } else if (isNotNull(identity.getSFContactId())) {
-            if (IdentityRepository.findBySfContactId(identity.getSFContactId()).isPresent()) {
+        } else if (isNotNull(identity.getSalesforceId())) {
+            if (IdentityRepository.findBySalesforceId(identity.getSalesforceId()).isPresent()) {
                 throw new IdentityAlreadyExistsException("Identity already exists");
             }
         }
@@ -76,8 +82,8 @@ public class IdentityServiceImpl implements IdentityService {
             existingIdentity.setEmail(identityUpdates.getEmail());
         }
 
-        if (isNotNull(identityUpdates.getSFContactId())) {
-            existingIdentity.setSFContactId(identityUpdates.getSFContactId());
+        if (isNotNull(identityUpdates.getSalesforceId())) {
+            existingIdentity.setSalesforceId(identityUpdates.getSalesforceId());
         }
 
         if (isNotNull(identityUpdates.getStreet())) {

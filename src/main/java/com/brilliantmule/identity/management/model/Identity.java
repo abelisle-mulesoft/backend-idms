@@ -36,12 +36,12 @@ public class Identity {
         this.email = email;
     }
 
-    public String getSFContactId() {
-        return sfContactId;
+    public String getSalesforceId() {
+        return salesforceId;
     }
 
-    public void setSFContactId(String sfContactId) {
-        this.sfContactId = sfContactId;
+    public void setSalesforceId(String salesforceId) {
+        this.salesforceId = salesforceId;
     }
 
     public String getStreet() {
@@ -91,8 +91,8 @@ public class Identity {
     @Column(name = "email", unique=true)
     private String email;
 
-    @Column(name = "sf_contact_id", unique = true)
-    private String sfContactId;
+    @Column(name = "salesforce_id", unique = true)
+    private String salesforceId;
 
     @Column(name = "address_street")
     private String street;

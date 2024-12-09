@@ -7,7 +7,7 @@ public interface IdentityService {
 
     com.brilliantmule.identity.management.model.Identity getIdentityById(Long id);
 
-    com.brilliantmule.identity.management.model.Identity findIdentity(String email, String sfContactId);
+    com.brilliantmule.identity.management.model.Identity findIdentity(String email, String salesforceId);
 
     com.brilliantmule.identity.management.model.Identity saveIdentity(com.brilliantmule.identity.management.model.Identity identity);
 
