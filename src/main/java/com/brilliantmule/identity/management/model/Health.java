@@ -1,5 +1,7 @@
 package com.brilliantmule.identity.management.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class Health {
     public static final String STATUS_UP = "UP";
     public static final String STATUS_DOWN = "DOWN";
@@ -15,5 +17,9 @@ public class Health {
         this.status = status;
     }
 
+    @Schema(
+            description = "The health status of this microservice",
+            example = "UP"
+    )
     private String status = STATUS_UP;
 }

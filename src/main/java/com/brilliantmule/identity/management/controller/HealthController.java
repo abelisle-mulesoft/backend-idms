@@ -2,6 +2,9 @@ package com.brilliantmule.identity.management.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +21,18 @@ public class HealthController {
     private ApplicationContext context;
 
     @GetMapping("/health")
-    @Operation(operationId = "get-service-health", summary = "Get health status", description = "Get the health and status of this microservice")
+    @Operation(
+            operationId = "get-service-health",
+            summary = "Get health status",
+            description = "Get the health and status of this microservice",
+            responses = { @ApiResponse(
+                    responseCode = "200",
+                    content = { @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = com.brilliantmule.identity.management.model.Health.class)
+                    ) }
+            ) }
+    )
     private com.brilliantmule.identity.management.model.Health getServiceHealth() {
         return healthService.getServiceHealth();
     }

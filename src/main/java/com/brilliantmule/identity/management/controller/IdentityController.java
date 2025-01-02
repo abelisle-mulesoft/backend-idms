@@ -3,7 +3,10 @@ package com.brilliantmule.identity.management.controller;
 import com.brilliantmule.identity.management.exception.IdentityAlreadyExistsException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +29,19 @@ public class IdentityController {
     com.brilliantmule.identity.management.service.HealthService healthService;
 
     @GetMapping("/identities")
-    @Operation(operationId = "get-identities", summary = "Get identities", description = "Get identity records")
-    private ResponseEntity<List<com.brilliantmule.identity.management.model.Identity>> getIdentities(@Parameter(description = "Email address") @RequestParam(required = false) String email, @Parameter(description = "Salesforce id") @RequestParam(required = false) String salesforceId) {
+    @Operation(
+            operationId = "get-identities",
+            summary = "Get identities",
+            description = "Get identity records",
+            responses = { @ApiResponse(
+                    responseCode = "200",
+                    content = { @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = com.brilliantmule.identity.management.model.Identity.class))
+                    ) }
+            ) }
+    )
+    private ResponseEntity<List<com.brilliantmule.identity.management.model.Identity>> getIdentities(@Parameter(description = "Email address", example = "asong@brilliantmule.com") @RequestParam(required = false) String email, @Parameter(description = "Salesforce id", example = "003Do00000HU7qtIAD") @RequestParam(required = false) String salesforceId) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -45,7 +59,18 @@ public class IdentityController {
     }
 
     @GetMapping("/identities/{id}")
-    @Operation(operationId = "get-identity-by-id", summary = "Get identity by ID", description = "Get the identity associated with the specified ID")
+    @Operation(
+            operationId = "get-identity-by-id",
+            summary = "Get identity by ID",
+            description = "Get the identity associated with the specified ID",
+            responses = { @ApiResponse(
+                    responseCode = "200",
+                    content = { @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = com.brilliantmule.identity.management.model.Identity.class)
+                    ) }
+            ) }
+    )
     private ResponseEntity<com.brilliantmule.identity.management.model.Identity> getIdentity(@Parameter(description = "Identity's unique identifier", schema = @Schema(type = "integer", format = "int64", example = "101")) @PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -65,7 +90,15 @@ public class IdentityController {
     }
 
     @DeleteMapping("/identities/{id}")
-    @Operation(operationId = "delete-identity-by-id", summary = "Delete identity by ID", description = "Delete the identity associated with the specified ID")
+    @Operation(
+            operationId = "delete-identity-by-id",
+            summary = "Delete identity by ID",
+            description = "Delete the identity associated with the specified ID",
+            responses = { @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = Void.class))
+            ) }
+    )
     private void deleteIdentity(@Parameter(description = "Identity's unique identifier", schema = @Schema(type = "integer", format = "int64", example = "101")) @PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,7 +114,18 @@ public class IdentityController {
     }
 
     @PostMapping("/identities")
-    @Operation(operationId = "create-identity", summary = "Create an identity", description = "Create a new identity record using the information provided")
+    @Operation(
+            operationId = "create-identity",
+            summary = "Create an identity",
+            description = "Create a new identity record using the information provided",
+            responses = { @ApiResponse(
+                    responseCode = "201",
+                    content = { @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = com.brilliantmule.identity.management.model.Identity.class)
+                    ) }
+            ) }
+    )
     private ResponseEntity<com.brilliantmule.identity.management.model.Identity> saveIdentity(@RequestBody com.brilliantmule.identity.management.model.Identity identity) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,7 +145,18 @@ public class IdentityController {
     }
 
     @PutMapping("/identities/{id}")
-    @Operation(operationId = "update-identity-by-id", summary = "Update an identity by ID", description = "Update the identity associated with the specified ID")
+    @Operation(
+            operationId = "update-identity-by-id",
+            summary = "Update an identity by ID",
+            description = "Update the identity associated with the specified ID",
+            responses = { @ApiResponse(
+                    responseCode = "200",
+                    content = { @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = com.brilliantmule.identity.management.model.Identity.class)
+                    ) }
+            ) }
+    )
     private ResponseEntity<com.brilliantmule.identity.management.model.Identity> updateIdentity(@RequestBody com.brilliantmule.identity.management.model.Identity identity, @Parameter(description = "Identity's unique identifier", schema = @Schema(type = "integer", format = "int64", example = "101")) @PathVariable("id") Long id) {
         if(!healthService.isServiceHealthy()){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
