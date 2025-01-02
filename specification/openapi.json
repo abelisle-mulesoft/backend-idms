@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.0.1",
   "info": {
     "title": "Identity Management",
     "description": "Microservice that emulates a customer's homegrown identity management system (IDMS).",
@@ -33,78 +33,36 @@
   ],
   "tags": [
     {
-      "name": "Identities",
-      "description": "Operations about identities"
-    },
-    {
       "name": "Health",
       "description": "Operations about this microservice's health"
+    },
+    {
+      "name": "Identities",
+      "description": "Operations about identities"
     }
   ],
   "paths": {
-    "/v1/identities": {
-      "get": {
-        "tags": [
-          "Identities"
-        ],
-        "summary": "Get all identities",
-        "description": "Returns all identities",
-        "operationId": "getAllIdentities",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Identity"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Identities"
-        ],
-        "summary": "Create an identity",
-        "description": "Creates a new identity",
-        "operationId": "createIdentity",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Identity"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Identity"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/identities/{id}": {
       "get": {
         "tags": [
           "Identities"
         ],
-        "summary": "Find identity by ID",
-        "description": "Returns the identity associated with the specified ID",
-        "operationId": "getIdentityById",
+        "summary": "Get identity by ID",
+        "description": "Get the identity associated with the specified ID",
+        "operationId": "get-identity-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identity's unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 101
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -122,9 +80,22 @@
         "tags": [
           "Identities"
         ],
-        "summary": "Update exiting identity",
-        "description": "Updates the identity associated with the specified ID",
-        "operationId": "updateIdentity",
+        "summary": "Update an identity by ID",
+        "description": "Update the identity associated with the specified ID",
+        "operationId": "update-identity-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identity's unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 101
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -152,28 +123,105 @@
         "tags": [
           "Identities"
         ],
-        "summary": "Delete identity",
-        "description": "Deletes the identity associated with the specified ID",
-        "operationId": "deleteIdentity",
+        "summary": "Delete identity by ID",
+        "description": "Delete the identity associated with the specified ID",
+        "operationId": "delete-identity-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identity's unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "example": 101
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      },
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "description": "Identity's unique identifier",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64",
-            "example": 101
+      }
+    },
+    "/v1/identities": {
+      "get": {
+        "tags": [
+          "Identities"
+        ],
+        "summary": "Get identities",
+        "description": "Get identity records",
+        "operationId": "get-identities",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "asong@brilliantmule.com"
+          },
+          {
+            "name": "salesforceId",
+            "in": "query",
+            "description": "Salesforce id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "003Do00000HU7qtIAD"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Identity"
+                  }
+                }
+              }
+            }
           }
         }
-      ]
+      },
+      "post": {
+        "tags": [
+          "Identities"
+        ],
+        "summary": "Create an identity",
+        "description": "Create a new identity record using the information provided",
+        "operationId": "create-identity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Identity"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Identity"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/v1/health": {
       "get": {
@@ -181,8 +229,8 @@
           "Health"
         ],
         "summary": "Get health status",
-        "description": "Returns the health and status of this microservice",
-        "operationId": "getServiceHealth",
+        "description": "Get the health and status of this microservice",
+        "operationId": "get-service-health",
         "responses": {
           "200": {
             "description": "OK",
@@ -205,52 +253,50 @@
         "properties": {
           "id": {
             "type": "integer",
+            "description": "Identity's unique identifier",
             "format": "int64",
             "example": 101
           },
           "firstName": {
             "type": "string",
-            "example": "Wolf"
+            "description": "First name of the user",
+            "example": "Arthur"
           },
           "lastName": {
             "type": "string",
-            "example": "Martin"
+            "description": "Last name of the user",
+            "example": "Song"
           },
           "email": {
             "type": "string",
-            "example": "wmertin@imageshack.us"
+            "description": "Email address of the user",
+            "example": "asong@brilliantmule.com"
+          },
+          "salesforceId": {
+            "type": "string",
+            "description": "Salesforce's unique identifier",
+            "example": "003Do00000HU7qtIAD"
           },
           "street": {
             "type": "string",
-            "example": "13 Cottonwood Plaza"
+            "description": "Street address of the user",
+            "example": "1301 Avenue of the Americas"
           },
           "city": {
             "type": "string",
-            "example": "Salt Lake City"
+            "description": "City of the user",
+            "example": "New York"
           },
           "state": {
             "type": "string",
-            "example": "UT"
+            "description": "State or province of the user",
+            "example": "NY"
           },
           "zip": {
             "type": "string",
-            "example": "84189"
-          },
-          "sfcontactId": {
-            "type": "string",
-            "example": "SF1234"
+            "description": "Zip or postal code of the user",
+            "example": "10019"
           }
-        },
-        "example": {
-          "id": 101,
-          "firstName": "Wolf",
-          "lastName": "Martin",
-          "email": "wmertin@imageshack.us",
-          "street": "13 Cottonwood Plaza",
-          "city": "Salt Lake City",
-          "state": "UT",
-          "zip": "84189",
-          "sfcontactId": "SF1234"
         }
       },
       "Health": {
@@ -258,11 +304,9 @@
         "properties": {
           "status": {
             "type": "string",
+            "description": "The health status of this microservice",
             "example": "UP"
           }
-        },
-        "example": {
-          "status": "UP"
         }
       }
     }
